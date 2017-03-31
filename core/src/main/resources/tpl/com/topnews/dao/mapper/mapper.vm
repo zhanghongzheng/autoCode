@@ -1,0 +1,16 @@
+package ${packageName}.dao.mapper;
+#macro(toLowerCase $className)
+$className.toLowerCase()##
+#end
+
+import java.util.List;
+import ${packageName}.dao.po.${className}Po;
+
+public interface ${className}Mapper {
+    int save(${className}Po #toLowerCase($className)Po);
+    int delete(${className}Po #toLowerCase($className)Po);
+    int update(${className}Po #toLowerCase($className)Po);
+    List<${className}Po> listAll();
+    List<${className}Po> listAllWithPage(@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize,@Param("orderBy")String orderBy,@Param("descOrAsc")String descOrAsc);
+    ${className}Po get(${className}Po #toLowerCase($className)Po);
+}

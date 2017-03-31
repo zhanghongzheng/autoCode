@@ -1,0 +1,16 @@
+package ${packageName}.mapper;
+#macro(toLowerCase $className)
+$className.toLowerCase()##
+#end
+
+import java.util.List;
+import ${packageName}.bean.$className;
+
+public interface ${className}Mapper {
+    int add($className #toLowerCase($className));
+    int delete($className #toLowerCase($className));
+    int update($className #toLowerCase($className));
+    List<$className> findAll();
+    List<$className> findAllWithPage(@Param("pageNo")Integer pageNo,@Param("pageSize")Integer pageSize,@Param("orderBy")String orderBy,@Param("descOrAsc")String descOrAsc);
+    $className findOne($className #toLowerCase($className));
+}

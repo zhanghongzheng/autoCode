@@ -1,0 +1,16 @@
+package ${packageName}.core.api;
+#macro(toLowerCase $className)
+$className.toLowerCase()##
+#end
+
+import java.util.List;
+import ${packageName}.dao.po.${className}Po;
+
+public interface I${className}Service {
+    int save(${className}Po #toLowerCase($className)Po);
+    int delete(${className}Po #toLowerCase($className)Po);
+    int update(${className}Po #toLowerCase($className)Po);
+    List<${className}Po> listAll();
+    List<${className}Po> listAllWithPage(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc);
+    ${className}Po get(${className}Po #toLowerCase($className)Po);
+}

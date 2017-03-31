@@ -1,0 +1,16 @@
+package ${packageName}.service.api;
+#macro(toLowerCase $className)
+$className.toLowerCase()##
+#end
+
+import java.util.List;
+import ${packageName}.bean.$className;
+
+public interface I${className}Service {
+    int add($className #toLowerCase($className));
+    int delete($className #toLowerCase($className));
+    int update($className #toLowerCase($className));
+    List<$className> findAll();
+    List<$className> findAllWithPage(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc);
+    $className findOne($className #toLowerCase($className));
+}

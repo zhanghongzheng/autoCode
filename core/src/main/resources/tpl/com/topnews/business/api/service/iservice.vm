@@ -1,0 +1,17 @@
+package ${packageName}.business.api.service;
+#macro(toLowerCase $className)
+$className.toLowerCase()##
+#end
+
+import java.util.List;
+import alipay.openplatform.edu.campus.topnews.business.api.dto.ApiResult;
+import ${packageName}.business.api.vo.${className}Vo;
+
+public interface I${className}ApiService {
+    ApiResult save(${className}Vo #toLowerCase($className));
+    ApiResult delete(${className}Vo #toLowerCase($className));
+    ApiResult update(${className}Vo #toLowerCase($className));
+    ApiResult listAll();
+    ApiResult listAllWithPage(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc);
+    ApiResult get(${className}Vo #toLowerCase($className));
+}

@@ -1,0 +1,95 @@
+package ${packageName}.controller;
+#macro(toLowerCase $field)
+$field.toLowerCase()##
+#end
+#macro(initUpperCase $field)
+$field.toUpperCase().substring(0,1)$field.substring(1)##
+#end
+#macro(paramsWithType $map)
+#foreach ($element in $map.entrySet())
+$element.value $element.key#if($velocityHasNext),#end
+#end
+#end
+#macro(paramsWithNoType $map)
+#foreach ($element in $map.entrySet())
+$element.key#if($velocityHasNext),#end
+#end
+#end
+
+import org.slf4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import alipay.openplatform.edu.campus.topnews.business.api.dto.ApiResult;
+import ${packageName}.business.api.service.I${className}ApiService;
+import ${packageName}.business.api.vo.$className;
+import alipay.openplatform.edu.campus.topnews.common.utils.LogUtil;
+
+@Controller
+public class ${className}Controller {
+    private static final Logger LOG = LoggerFactory.getLogger(${className}Controller.class);
+    @Autowired
+    private I${className}ApiService #toLowerCase($className)ApiService;
+
+    @ResponseBody
+    @RequestMapping(value="/save$className",method=RequestMethod.POST)
+    public ApiResult save$className(#paramsWithType($map)){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|save$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+          return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)ApiService.save(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/update$className",method=RequestMethod.POST)
+    public ApiResult update$className(#paramsWithType($map)){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|update$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)ApiService.update(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/delete$className",method=RequestMethod.POST)
+    public ApiResult delete$className(${className} #toLowerCase($className)){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|delete$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)ApiService.delete(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/get$className",method=RequestMethod.GET)
+    public ApiResult get$className(${className} #toLowerCase($className)){
+        LogUtil.info(LOG,"${className}ApiServiceImpl|get$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+        if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+        }
+        return #toLowerCase($className)ApiService.get(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/listAll$className",method=RequestMethod.GET)
+    public ApiResult listAll$className(){
+       return #toLowerCase($className)ApiService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/listAll${className}WithPage",method=RequestMethod.GET)
+    public ApiResult listAll$className(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|listAll$className|pageNo={},pageSize={},orderBy={},descOrAsc={}",pageNo,pageSize,orderBy,descOrAsc);
+       return #toLowerCase($className)ApiService.listAllWithPage(pageNo,pageSize,orderBy,descOrAsc);
+    }
+
+    private ${className}Vo get$className(#paramsWithNoType($map)){
+        ${className}Vo vo = new ${className}Vo();
+#foreach ($e in $map.entrySet())
+        vo.set#initUpperCase($e.key)($e.key);
+#end
+    }
+}

@@ -1,0 +1,131 @@
+package ${packageName}.service.impl;
+#macro(toLowerCase $field)
+$field.toLowerCase()##
+#end
+
+import java.util.List;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.beanutils.BeanUtils;
+import alipay.openplatform.edu.campus.topnews.common.enums.XKHResponseCodeEnum;
+import alipay.openplatform.edu.campus.topnews.business.api.dto.ApiResult;
+import ${packageName}.service.api.I${className}ApiService;
+import alipay.openplatform.edu.campus.topnews.common.utils.CopyVoPo;
+import alipay.openplatform.edu.campus.topnews.common.utils.LogUtil;
+
+@Service
+public class ${className}ApiServiceImpl implement I${className}ApiService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(${className}ApiServiceImpl.class);
+
+    @Autowired
+    private I${className}Service i${className}Service;
+
+    public ApiResult save(${className}Vo vo){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|save|vo={}",vo);
+       try{
+         ${className}Po po = new ${className}Po();
+         BeanUtils.copyProperties(po,vo);
+         Integer res = i${className}Service.save(po);
+         if(res > 0){
+            LogUtil.info(LOG,"${className}ApiServiceImpl|save|处理成功,vo={}",vo);
+            return ApiResult.Build(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg());
+         }
+       }catch(Exception e){
+         e.printStackTrace();
+         LogUtil.error(LOG,"${className}ApiServiceImpl|save|系统异常,vo={},e={}",vo,e);
+       }
+      LogUtil.error(LOG,"${className}ApiServiceImpl|save|系统异常,vo={}",vo);
+      return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+
+    public ApiResult delete(${className}Vo vo){
+      LogUtil.info(LOG,"${className}ApiServiceImpl|delete|vo={}",vo);
+      try{
+           ${className}Po po = new ${className}Po();
+           BeanUtils.copyProperties(po,vo);
+           Integer res = i${className}Service.delete(po);
+           if(res > 0){
+              LogUtil.info(LOG,"${className}ApiServiceImpl|delete|处理成功,vo={}",vo);
+              return ApiResult.Build(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg());
+           }
+       }catch(Exception e){
+         e.printStackTrace();
+         LogUtil.error(LOG,"${className}ApiServiceImpl|delete|系统异常,vo={},e={}",vo,e);
+       }
+      LogUtil.error(LOG,"${className}ApiServiceImpl|delete|系统异常,vo={}",vo);
+      return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+
+
+    public ApiResult update(${className}Vo vo){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|update|vo={}",vo);
+       try{
+            ${className}Po po = new ${className}Po();
+            BeanUtils.copyProperties(po,vo);
+            Integer res = i${className}Service.update(po);
+            if(res > 0){
+                LogUtil.info(LOG,"${className}ApiServiceImpl|update|处理成功,vo={}",vo);
+                return ApiResult.Build(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg());
+            }
+       }catch(Exception e){
+         e.printStackTrace();
+         LogUtil.error(LOG,"${className}ApiServiceImpl|update|系统异常,vo={},e={}",vo,e);
+       }
+     LogUtil.error(LOG,"${className}ApiServiceImpl|update|系统异常,vo={}",vo);
+     return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+
+    public ApiResult listAll(){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|listAll");
+       try{
+          List<${className}Po> poList = i${className}Service.listAll();
+          List<${className}Vo> voList = null;
+          if(poList!=null||poList.size()>0){
+             voList = CopyVoPo.copyList(poList,${className}Vo.class);
+             LogUtil.info(LOG,"${className}ApiServiceImpl|listAll|处理成功");
+          }
+          return ApiResult.BuildSuccess(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg(),voList);
+        }catch(Exception e){
+          e.printStackTrace();
+          LogUtil.error(LOG,"${className}ApiServiceImpl|listAll|系统异常,e={}",e);
+        }
+        LogUtil.error(LOG,"${className}ApiServiceImpl|listAll|系统异常");
+       return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+
+    public ApiResult listAllWithPage(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc){
+        LogUtil.info(LOG,"${className}ApiServiceImpl|listAllWithPage|pageNo={},pageSize={},orderBy={},descOrAsc={}",pageNo,pageSize,orderBy,descOrAsc);
+        try{
+         List<${className}Po> poList = i${className}Service.listAllWithPage(pageNo,pageSize,orderBy,descOrAsc);
+         List<${className}Vo> voList = null;
+         if(poList!=null||poList.size()>0){
+            voList = CopyVoPo.copyList(poList,${className}Vo.class);
+            LogUtil.info(LOG,"${className}ApiServiceImpl|listAllWithPage|处理成功,voList={}",voList);
+         }
+         return ApiResult.BuildSuccess(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg(),voList);
+       }catch(Exception e){
+         e.printStackTrace();
+         LogUtil.error(LOG,"${className}ApiServiceImpl|listAllWithPage|系统异常,pageNo={},pageSize={},orderBy={},descOrAsc={},e={}",pageNo,pageSize,orderBy,descOrAsc,e);
+       }
+       LogUtil.error(LOG,"${className}ApiServiceImpl|listAllWithPage|系统异常,pageNo={},pageSize={},orderBy={},descOrAsc={}",pageNo,pageSize,orderBy,descOrAsc);
+      return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+
+    public ApiResult get(${className}Vo vo){
+       LogUtil.info(LOG,"${className}ApiServiceImpl|get|vo={}",vo);
+       try{
+         ${className}Po po = new ${className}Po();
+         BeanUtils.copyProperties(po,vo);
+         LogUtil.info(LOG,"${className}ApiServiceImpl|get|处理成功,vo={}",vo);
+         return ApiResult.BuildSuccess(XKHResponseCodeEnum.SUCCESS.getCode(),XKHResponseCodeEnum.SUCCESS.getMsg(),i${className}Service.get(po));
+       }catch(Exception e){
+         e.printStackTrace();
+         LogUtil.error(LOG,"${className}ApiServiceImpl|get|系统异常,vo={},e={}",vo,e);
+       }
+      LogUtil.error(LOG,"${className}ApiServiceImpl|get|系统异常,vo={}",vo);
+      return ApiResult.Build(XKHResponseCodeEnum.SYSTEM_ERROR.getCode(),XKHResponseCodeEnum.SYSTEM_ERROR.getMsg());
+    }
+}

@@ -1,0 +1,76 @@
+package ${packageName}.service.impl;
+#macro(toLowerCase $field)
+$field.toLowerCase()##
+#end
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.service.api.I${className}Service;
+import ${packageName}.mapper.I${className}Mapper;
+import ${packageName}.bean.${className};
+
+@Service
+public class ${className}ServiceImpl implement I${className}Service {
+    @Autowired
+    private ${className}Mapper mapper;
+
+    @Transactional(rollback=Exception.class)
+    public int add($className #toLowerCase($className)){
+       try{
+         return mapper.add(#toLowerCase($className));
+       }catch(Exception e){
+         e.printStackTrace();
+       }
+       return 0;
+    }
+
+    @Transactional(rollback=Exception.class)
+    public int delete($className #toLowerCase($className)){
+      try{
+        return mapper.delete(#toLowerCase($className));
+      }catch(Exception e){
+        e.printStackTrace();
+      }
+       return 0;
+    }
+
+
+    @Transactional(rollback=Exception.class)
+    public int update($className #toLowerCase($className)){
+       try{
+         return mapper.update(#toLowerCase($className));
+       }catch(Exception e){
+         e.printStackTrace();
+       }
+       return 0;
+    }
+
+    public List<$className> findAll(){
+       try{
+         return mapper.findAll();
+       }catch(Exception e){
+         e.printStackTrace();
+       }
+       return null;
+    }
+
+    public List<$className> findAll(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc){
+       try{
+         return mapper.findAll(pageNo,pageSize,orderBy,descOrAsc);
+       }catch(Exception e){
+         e.printStackTrace();
+       }
+       return null;
+    }
+
+    public $className findOne($className #toLowerCase($className)){
+       try{
+         return mapper.findOne(#toLowerCase($className));
+       }catch(Exception e){
+         e.printStackTrace();
+       }
+         return null;
+       }
+}

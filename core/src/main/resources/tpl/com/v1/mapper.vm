@@ -1,0 +1,96 @@
+#macro(paramsWithNoType $columnMap)
+#foreach ($element in $columnMap.entrySet())
+$element.key#if($velocityHasNext),#end
+#end
+#end
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${packageName}.mapper.${className}Mapper">
+    <resultMap id="BaseResultMap" type="${packageName}.bean.${className}">
+#foreach ($e in $columnMap.entrySet())
+#if($e.key==$primaryKey)
+        <id column="$e.key" property="$e.key" jdbcType="$e.value"/>
+#else
+        <result column="$e.key" property="$e.key" jdbcType="$e.value"/>
+#end
+#end
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        #paramsWithNoType($columnMap)
+
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id"
+            parameterType="${packageName}.bean.${className}">
+        <selectKey order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO ${className}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach ($e in $columnMap.entrySet())
+        <if test="$e.key != null">
+            $e.key,
+        </if>
+#end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+#foreach ($e in $columnMap.entrySet())
+        <if test="$e.key != null">
+            #{$e.key},
+        </if>
+#end
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="${packageName}.bean.${className}">
+        DELETE FROM ${className}
+        WHERE
+#foreach ($e in $columnMap.entrySet())
+            <if test="$e.key != null">
+                $e.key=#{$e.key} AND
+            </if>
+#end
+        1=1
+    </delete>
+
+    <update id="update" parameterType="${packageName}.bean.${className}">
+        UPDATE ${className}
+        SET
+#foreach ($e in $columnMap.entrySet())
+            <if test="$e.key != null">
+                $e.key=#{$e.key} AND
+            </if>
+#end
+        WHERE $primaryKey=#{$primaryKey}
+    </update>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $className
+    </select>
+
+    <select id="findAllWithPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $className
+        LIMIT #{pageNo},#{pageSize}
+        ORDER BY #{orderBy} #{descOrAsc}
+    </select>
+
+    <select id="findOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $className
+        WHERE
+#foreach ($e in $columnMap.entrySet())
+        <if test="$e.key != null">
+            $e.key=#{$e.key} AND
+        </if>
+#end
+        1=1
+    </select>
+
+</mapper>

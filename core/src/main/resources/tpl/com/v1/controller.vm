@@ -1,0 +1,80 @@
+package ${packageName}.controller;
+#macro(toLowerCase $field)
+$field.toLowerCase()##
+#end
+#macro(initUpperCase $field)
+$field.toUpperCase().substring(0,1)$field.substring(1)##
+#end
+#macro(paramsWithType $map)
+#foreach ($element in $map.entrySet())
+$element.value $element.key#if($velocityHasNext),#end
+#end
+#end
+#macro(paramsWithNoType $map)
+#foreach ($element in $map.entrySet())
+$element.key#if($velocityHasNext),#end
+#end
+#end
+
+import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ${packageName}.service.api.I${className}Service;
+import ${packageName}.bean.$className;
+
+@Controller
+public class ${className}Controller {
+    @Autowired
+    private I${className}Service #toLowerCase($className)Service;
+
+    @ResponseBody
+    @RequestMapping(value="/add$className",method=RequestMethod.POST)
+    public ApiResult add$className(#paramsWithType($map)){
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)Service.add(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/update$className",method=RequestMethod.POST)
+    public ApiResult update$className(#paramsWithType($map)){
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)Service.update(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/delete$className",method=RequestMethod.POST)
+    public ApiResult delete$className(${className} #toLowerCase($className)){
+       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       }
+       return #toLowerCase($className)Service.delete(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/findOne$className",method=RequestMethod.GET)
+    public ApiResult findOne$className(${className} #toLowerCase($className)){
+        if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+        }
+        return #toLowerCase($className)Service.findOne(get$className(#paramsWithNoType($map)));
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/findAll$className",method=RequestMethod.GET)
+    public ApiResult findAll$className(){
+       return #toLowerCase($className)Service.findAll();
+    }
+
+    private $className get$className(#paramsWithNoType($map)){
+        $className #toLowerCase($className) = new $className();
+    #foreach ($e in $map.entrySet())
+    #toLowerCase($className)\$.set#initUpperCase($e.key)($e.key);
+    #end
+    }
+}

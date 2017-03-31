@@ -1,0 +1,35 @@
+package ${packageName}.business.api.vo;
+#macro(initUpperCase $field)
+$field.toUpperCase().substring(0,1)$field.substring(1)##
+#end
+
+import java.io.Serializable;
+#foreach ($element in $importSet)
+import $element;
+#end
+
+public class ${className}Vo implements Serializable{
+#foreach ($element in $map.entrySet())
+  private $element.value $element.key;
+#end
+  public ${className}Vo(){
+
+  }
+#foreach ($element in $map.entrySet())
+  public $element.value get#initUpperCase($element.key)(){
+     return $element.value;
+  }
+  public void set#initUpperCase($element.key)($element.value $element.key){
+     this.$element.key = $element.key;
+  }
+#end
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("${className}Vo{");
+#foreach ($element in $map.entrySet())
+    sb.append("$element.key='").append($element.key=).append('\'');
+#end
+    return sb.toString();
+  }
+}

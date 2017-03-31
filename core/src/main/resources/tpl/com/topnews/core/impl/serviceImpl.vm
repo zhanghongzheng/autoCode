@@ -1,0 +1,45 @@
+package ${packageName}.core.impl;
+#macro(toLowerCase $field)
+$field.toLowerCase()##
+#end
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.core.I${className}Service;
+import ${packageName}.dao.mapper.${className}Mapper;
+import ${packageName}.dao.po.${className}Po;
+
+@Service
+public class ${className}ServiceImpl implements I${className}Service {
+    @Autowired
+    private ${className}Mapper mapper;
+
+    @Transactional(rollback=Exception.class)
+    public int save($className #toLowerCase($className)){
+      return mapper.save(#toLowerCase($className));
+    }
+
+    @Transactional(rollback=Exception.class)
+    public int delete($className #toLowerCase($className)){
+       return mapper.delete(#toLowerCase($className));
+    }
+
+    @Transactional(rollback=Exception.class)
+    public int update($className #toLowerCase($className)){
+       return mapper.update(#toLowerCase($className));
+    }
+
+    public List<$className> listAll(){
+       return mapper.listAll();
+    }
+
+    public List<$className> listAllWithPage(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc){
+       return mapper.listAllWithPage(pageNo,pageSize,orderBy,descOrAsc);
+    }
+
+    public $className get($className #toLowerCase($className)){
+       return mapper.get(#toLowerCase($className));
+    }
+}
