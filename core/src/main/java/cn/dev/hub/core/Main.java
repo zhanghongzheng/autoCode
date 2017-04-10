@@ -9,6 +9,6 @@ import cn.dev.hub.core.api.pack.topnews.TopnewsGenerator;
 public class Main {
     public static void main(String[] args) {
         BaseGenerator generator = new TopnewsGenerator();
-        generator.init("com.alipay");
+        generator.init("alipay.openplatform.edu.campus.job");
     }
 }

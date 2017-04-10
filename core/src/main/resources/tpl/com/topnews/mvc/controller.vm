@@ -16,7 +16,9 @@ $element.key#if($velocityHasNext),#end
 #end
 #end
 
+import java.util.*;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import alipay.openplatform.edu.campus.topnews.business.api.dto.ApiResult;
 import ${packageName}.business.api.service.I${className}ApiService;
-import ${packageName}.business.api.vo.$className;
+import ${packageName}.business.api.vo.${className}Vo;
 import alipay.openplatform.edu.campus.topnews.common.utils.LogUtil;
+import alipay.openplatform.edu.campus.topnews.common.utils.ObjectUtil;
+import alipay.openplatform.edu.campus.topnews.common.enums.XKHResponseCodeEnum;
 
-@Controller
+@Controller("/#toLowerCase($className)")
 public class ${className}Controller {
     private static final Logger LOG = LoggerFactory.getLogger(${className}Controller.class);
     @Autowired
@@ -36,9 +40,9 @@ public class ${className}Controller {
     @ResponseBody
     @RequestMapping(value="/save$className",method=RequestMethod.POST)
     public ApiResult save$className(#paramsWithType($map)){
-       LogUtil.info(LOG,"${className}ApiServiceImpl|save$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
-       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
-          return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       LogUtil.info(LOG,"${className}ApiService|save$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtil.hasEmpty(#paramsWithNoType($map))){
+          return ApiResult.build(XKHResponseCodeEnum.PARAM_INVALID.getCode(),XKHResponseCodeEnum.PARAM_INVALID.getMsg());
        }
        return #toLowerCase($className)ApiService.save(get$className(#paramsWithNoType($map)));
     }
@@ -46,29 +50,29 @@ public class ${className}Controller {
     @ResponseBody
     @RequestMapping(value="/update$className",method=RequestMethod.POST)
     public ApiResult update$className(#paramsWithType($map)){
-       LogUtil.info(LOG,"${className}ApiServiceImpl|update$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
-       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
-            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+       LogUtil.info(LOG,"${className}ApiService|update$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtil.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(XKHResponseCodeEnum.PARAM_INVALID.getCode(),XKHResponseCodeEnum.PARAM_INVALID.getMsg());
        }
        return #toLowerCase($className)ApiService.update(get$className(#paramsWithNoType($map)));
     }
 
     @ResponseBody
     @RequestMapping(value="/delete$className",method=RequestMethod.POST)
-    public ApiResult delete$className(${className} #toLowerCase($className)){
-       LogUtil.info(LOG,"${className}ApiServiceImpl|delete$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
-       if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
-            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+    public ApiResult delete$className(#paramsWithType($map)){
+       LogUtil.info(LOG,"${className}ApiService|delete$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+       if(ObjectUtil.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(XKHResponseCodeEnum.PARAM_INVALID.getCode(),XKHResponseCodeEnum.PARAM_INVALID.getMsg());
        }
        return #toLowerCase($className)ApiService.delete(get$className(#paramsWithNoType($map)));
     }
 
     @ResponseBody
     @RequestMapping(value="/get$className",method=RequestMethod.GET)
-    public ApiResult get$className(${className} #toLowerCase($className)){
-        LogUtil.info(LOG,"${className}ApiServiceImpl|get$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
-        if(ObjectUtils.hasEmpty(#paramsWithNoType($map))){
-            return ApiResult.build(ResultCode.PARAM_INVALID.getCode(),ResultCode.PARAM_INVALID.getMsg());
+    public ApiResult find$className(#paramsWithType($map)){
+        LogUtil.info(LOG,"${className}ApiService|get$className|[#paramsWithNoType($map)]={}",Arrays.asList(#paramsWithNoType($map)));
+        if(ObjectUtil.hasEmpty(#paramsWithNoType($map))){
+            return ApiResult.build(XKHResponseCodeEnum.PARAM_INVALID.getCode(),XKHResponseCodeEnum.PARAM_INVALID.getMsg());
         }
         return #toLowerCase($className)ApiService.get(get$className(#paramsWithNoType($map)));
     }
@@ -76,20 +80,21 @@ public class ${className}Controller {
     @ResponseBody
     @RequestMapping(value="/listAll$className",method=RequestMethod.GET)
     public ApiResult listAll$className(){
-       return #toLowerCase($className)ApiService.findAll();
+       return #toLowerCase($className)ApiService.listAll();
     }
 
     @ResponseBody
     @RequestMapping(value="/listAll${className}WithPage",method=RequestMethod.GET)
     public ApiResult listAll$className(Integer pageNo,Integer pageSize,String orderBy,String descOrAsc){
-       LogUtil.info(LOG,"${className}ApiServiceImpl|listAll$className|pageNo={},pageSize={},orderBy={},descOrAsc={}",pageNo,pageSize,orderBy,descOrAsc);
+       LogUtil.info(LOG,"${className}ApiService|listAll$className|pageNo={},pageSize={},orderBy={},descOrAsc={}",pageNo,pageSize,orderBy,descOrAsc);
        return #toLowerCase($className)ApiService.listAllWithPage(pageNo,pageSize,orderBy,descOrAsc);
     }
 
-    private ${className}Vo get$className(#paramsWithNoType($map)){
+    private ${className}Vo get$className(#paramsWithType($map)){
         ${className}Vo vo = new ${className}Vo();
 #foreach ($e in $map.entrySet())
         vo.set#initUpperCase($e.key)($e.key);
 #end
+      return vo;
     }
 }

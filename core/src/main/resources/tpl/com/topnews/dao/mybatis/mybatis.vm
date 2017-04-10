@@ -23,11 +23,18 @@ $element.key#if($velocityHasNext),#end
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id"
             parameterType="${packageName}.dao.po.${className}Po">
-        <selectKey order="AFTER"
-                   keyProperty="id">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        INSERT INTO ${className}
+    #foreach ($e in $propertyMap.entrySet())
+        #if($e.key==$primaryKey)
+
+            <selectKey order="AFTER" keyProperty="$primaryKey"
+            resultType="java.lang.$e.value">
+                SELECT LAST_INSERT_ID()
+            </selectKey>
+        #end
+    #end
+
+        INSERT INTO #toLowerCase($className)
+
         <trim prefix="(" suffix=")" suffixOverrides=",">
 #foreach ($e in $columnMap.entrySet())
         <if test="$e.key != null">

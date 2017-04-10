@@ -17,7 +17,7 @@ public class ${className}Vo implements Serializable{
   }
 #foreach ($element in $map.entrySet())
   public $element.value get#initUpperCase($element.key)(){
-     return $element.value;
+     return $element.key;
   }
   public void set#initUpperCase($element.key)($element.value $element.key){
      this.$element.key = $element.key;
@@ -28,7 +28,7 @@ public class ${className}Vo implements Serializable{
   public String toString() {
     final StringBuilder sb = new StringBuilder("${className}Vo{");
 #foreach ($element in $map.entrySet())
-    sb.append("$element.key='").append($element.key=).append('\'');
+    sb.append("$element.key='").append($element.key).append('\'');
 #end
     return sb.toString();
   }

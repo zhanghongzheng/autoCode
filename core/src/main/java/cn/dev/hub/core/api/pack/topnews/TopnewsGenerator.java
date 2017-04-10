@@ -109,6 +109,7 @@ public class TopnewsGenerator extends BaseGenerator {
         context.put("className", className);
         context.put("columnMap", table.getColumnMap());
         context.put("primaryKey", table.getPrimaryKey());
+        context.put("propertyMap", table.getPropertyMap());
         Template t = ve.getTemplate(tpl, "utf-8");
         t.merge(context, writer);
         String fileName = "./res/" + returnFilePath(packageName) + "dao/mybatis/" + className + "Mapper.xml";

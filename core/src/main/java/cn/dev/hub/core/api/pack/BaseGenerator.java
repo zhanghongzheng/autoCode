@@ -50,8 +50,8 @@ public abstract class BaseGenerator {
                 ResultSet rs = dbmd.getColumns(null, "%", tableName, "%");
                 Table table = new Table();
                 table.setTableName(tableName);
-                Map propertyMap = new HashMap();
-                Map columnMap = new HashMap();
+                Map propertyMap = new LinkedHashMap();
+                Map columnMap = new LinkedHashMap();
                 Set importSet = new HashSet();
                 ResultSet pkSet = dbmd.getPrimaryKeys(null, null, tableName);
                 while (pkSet.next()) {
